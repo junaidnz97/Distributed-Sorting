@@ -67,33 +67,20 @@ public class alternatealgorithm {
             for (int j = 0; j < n; j++) {
                 if (p[j].modval == 1) {
                     if (j == 0 & j + 1 < n) {
-                        //RunImpl runimpl=new RunImpl(j,j+1,-1);
-                        //Thread r=new Thread(runimpl);
-                        //r.start();
                         r[num_threads] = new RunImpl(j, j + 1, -1);
                         r[num_threads].start();
                         num_threads += 1;
                     } else if (j < n - 1) {
-                        //RunImpl runimpl=new RunImpl(j-1,j,j+1);
-                        //Thread r=new Thread(runimpl);
-                        //r.start();
                         r[num_threads] = new RunImpl(j - 1, j, j + 1);
                         r[num_threads].start();
                         num_threads += 1;
                     } else {
-                        //RunImpl runimpl=new RunImpl(j-1,j,-1);
-                        //Thread r=new Thread(runimpl);
-                        //r.start();
                         r[num_threads] = new RunImpl(j - 1, j, -1);
                         r[num_threads].start();
                         num_threads += 1;
                     }
                 }
             }
-            /*while(flag<num_threads)
-            {
-                ;
-            }*/
             for (int j = 0; j < num_threads; j++) {
                 try {
                     r[j].join();
@@ -110,8 +97,9 @@ public class alternatealgorithm {
             }
             System.out.println();
         }
+        System.out.println("After Sorting");
         for (int i = 0; i < n; i++) {
-            System.out.println(p[i].data);
+            System.out.print(p[i].data+" ");
         }
     }
 }

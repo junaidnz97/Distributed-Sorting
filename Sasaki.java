@@ -33,22 +33,8 @@ class Runimpl extends Thread {
 
     public void run() {
         try {
-            /*if (Sasaki.p[i].second > Sasaki.p[j].first) {
-                if (Sasaki.p[i].markedsecond == 1) {
-                    Sasaki.p[j].area -= 1;
-                }
-                if (Sasaki.p[j].markedfirst == 1) {
-                    Sasaki.p[j].area += 1;
-                }
-                int tempval = Sasaki.p[j].first;
-                Sasaki.p[j].first = Sasaki.p[i].second;
-                Sasaki.p[i].second = tempval;
-                int tempmarked = Sasaki.p[i].markedsecond;
-                Sasaki.p[i].markedsecond = Sasaki.p[j].markedfirst;
-                Sasaki.p[j].markedfirst = tempmarked;
-            }*/
-            Sasaki.p[i] = sendandreceive(Sasaki.p[i], j);
 
+            Sasaki.p[i] = sendandreceive(Sasaki.p[i], j);
             Sasaki.flag += 1;
         } catch (Exception e) {
             System.out.println("Exception is caught");
@@ -92,14 +78,9 @@ class Sasaki {
             flag = 0;
             Runimpl r[] = new Runimpl[n];
             for (int j = 0; j < n - 1; j++) {
-                //Runimpl runimpl = new Runimpl(j, j + 1);
-                //Thread r = new Thread(runimpl);
                 r[j] = new Runimpl(j, j + 1);
                 r[j].start();
             }
-           /* while (flag < 4) {
-                System.out.print("");
-            }*/
             for (int j = 0; j < n - 1; j++) {
                 try {
                     r[j].join();
@@ -121,11 +102,11 @@ class Sasaki {
             System.out.println("After Round" + (i + 1));
             for (int j = 0; j < n; j++) {
                 if (j == 0)
-                    System.out.print("|" + p[j].second + "|\t");
+                    System.out.print("|" + p[j].second + " ,area = "+p[j].area +"|\t");
                 else if (j == n - 1)
-                    System.out.println("|" + p[j].first + "|\n");
+                    System.out.println("|" + p[j].first + " ,area = "+p[j].area +"|\n");
                 else
-                    System.out.print("|" + p[j].first + "," + p[j].second + "|\t");
+                    System.out.print("|" + p[j].first + "," + p[j].second + " ,area = "+p[j].area +"|\t");
             }
 
 
@@ -141,10 +122,5 @@ class Sasaki {
             else
                 System.out.print(p[i].first + " ");
         }
-        /*for(int i=0;i<5;i++)
-        {
-            System.out.println(p[i].first+" "+p[i].second+" "+p[i].area+" "+p[i].markedfirst+" "+p[i].markedsecond);
-
-        }*/
     }
 }
