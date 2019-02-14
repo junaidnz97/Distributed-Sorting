@@ -69,11 +69,11 @@ class Runimpl extends Thread {
 
 class Sasaki {
     public static int flag = 0;
-    public static int arr[] = new int[5];
-    public static pair p[] = new pair[5];
+    public static int n=5;
+    public static int arr[] = new int[n];
+    public static pair p[] = new pair[n];
 
     public static void main(String[] args) {
-        int n = 5;
         /*
         Initializing all the array and the node randomly
         */
