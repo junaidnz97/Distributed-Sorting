@@ -12,5 +12,5 @@
 		Method used:Threads
 		Time complexity:O(n^2)
 		Space complexity:O(n)
-		Command to run:javac alternate.java
-					   java alternate
+		Command to run:javac alternatealgorithm.java
+					   java alternatealgorithm

@@ -100,6 +100,7 @@ public class alternatealgorithm {
             System.out.print("| " + p[j].data + " (Mod_Val= " + p[j].modval + ") |\t");
         }
         System.out.println();
+        System.out.println();
         for (int i = 0; i < n - 1; i++) {
             flag = 0;
             int num_threads = 0;
@@ -141,6 +142,7 @@ public class alternatealgorithm {
             for (int j = 0; j < n; j++) {
                 System.out.print("| " + p[j].data + " (Mod_Val= " + p[j].modval + ") |\t");
             }
+            System.out.println();
             System.out.println();
         }
         System.out.println("After Sorting");
