@@ -1,10 +1,13 @@
-import java.util.Scanner;
-
+/*
+Created a class named pair to store detalils of a single node
+*/
 class node {
     int data;
     int modval;
 }
-
+/*
+An extension of the thread class to run each thread and do the processing
+*/
 class RunImpl extends Thread {
     int i, j, k;
 
@@ -13,15 +16,34 @@ class RunImpl extends Thread {
         this.j = j;
         this.k = k;
     }
-
-    int sendandreceive(int i, int j) {
+    /*
+    Function to receive the updated value if at all updated,
+    when 2 processes try to communicate with each other
+     */
+    void receive(int i, int min) {
+        alternatealgorithm.p[i].data = min;
+    }
+    /*
+    Same as above,but when 3 processes try to communicate with each other
+     */
+    void receive(int i, int k, int min, int max) {
+        alternatealgorithm.p[i].data = min;
+        alternatealgorithm.p[k].data = max;
+    }
+    /*
+     The function where local computation happens.This is where the swapping happens,when
+     2 processes try to communicate with each other
+    */
+    void localcomputation(int i, int j) {
         int min = Math.min(alternatealgorithm.p[i].data, alternatealgorithm.p[j].data);
         if (alternatealgorithm.p[i].data > alternatealgorithm.p[j].data)
             alternatealgorithm.p[j].data = alternatealgorithm.p[i].data;
-        return min;
+        receive(i, min);
     }
-
-    void sendandreceive(int i, int j, int k) {
+    /*
+     Same as above,but when 3 processes try to communicate with each other
+    */
+    void localcomputation(int i, int j, int k) {
         int min = Math.min(Math.min(alternatealgorithm.p[i].data, alternatealgorithm.p[j].data), alternatealgorithm.p[k].data);
         int max = Math.max(Math.max(alternatealgorithm.p[i].data, alternatealgorithm.p[j].data), alternatealgorithm.p[k].data);
         int med = alternatealgorithm.p[i].data + alternatealgorithm.p[j].data + alternatealgorithm.p[k].data - max - min;
@@ -29,14 +51,28 @@ class RunImpl extends Thread {
         alternatealgorithm.p[j].data = med;
         alternatealgorithm.p[k].data = max;
     }
-
+    /*
+    Send function when 2 processes try to communicate with each other
+     */
+    void send(int i, int j) {
+        localcomputation(i, j);
+    }
+    /*
+    Same as above,but when 3 processes try to communicate with each other
+    */
+    void send(int i, int j, int k) {
+        localcomputation(i, j, k);
+    }
+    /*
+    This is where the thread runs
+     */
     public void run() {
         if (k == -1) {
-            alternatealgorithm.p[i].data = sendandreceive(i, j);
+            send(i, j);
         } else {
-            sendandreceive(i, j, k);
+            send(i, j, k);
         }
-        alternatealgorithm.flag += 1;
+        //alternatealgorithm.flag += 1;
     }
 }
 
@@ -45,19 +81,23 @@ public class alternatealgorithm {
     public static int n = 5;
     public static node p[] = new node[n];
     public static int flag = 0;
-
+    /*
+    Initializing the array with random values
+    */
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         int arr[] = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = scanner.nextInt();
+            arr[i] = (int) ((Math.random() * ((1000 - 1) + 1)) + 1);
             p[i] = new node();
             p[i].data = arr[i];
             p[i].modval = i % 3;
         }
+        /*
+        Printing initial values
+         */
         System.out.println("After Round " + (0));
         for (int j = 0; j < n; j++) {
-            System.out.print("| " + p[j].data + "," + p[j].modval + "|\t");
+            System.out.print("| " + p[j].data + " (Mod_Val= " + p[j].modval + ") |\t");
         }
         System.out.println();
         for (int i = 0; i < n - 1; i++) {
@@ -83,6 +123,9 @@ public class alternatealgorithm {
             }
             for (int j = 0; j < num_threads; j++) {
                 try {
+                    /*
+                    Waiting for thread to end
+                     */
                     r[j].join();
                 } catch (Exception e) {
                     System.out.println("Exception Caught");
@@ -91,15 +134,18 @@ public class alternatealgorithm {
             for (int j = 0; j < n; j++) {
                 p[j].modval = (p[j].modval + 2) % 3;
             }
+            /*
+            Printing states after each round
+             */
             System.out.println("After Round " + (i + 1));
             for (int j = 0; j < n; j++) {
-                System.out.print("| " + p[j].data + "," + p[j].modval + "|\t");
+                System.out.print("| " + p[j].data + " (Mod_Val= " + p[j].modval + ") |\t");
             }
             System.out.println();
         }
         System.out.println("After Sorting");
         for (int i = 0; i < n; i++) {
-            System.out.print(p[i].data+" ");
+            System.out.print(p[i].data + " ");
         }
     }
 }
